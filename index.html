@@ -8,10 +8,14 @@
 </head>
 <body>
     <h1>Test 1</h1>
-   <form method="get">
-       <input type="text" value="" name="name" placeholder="write a name"><br>
-       <button type="button" onclick="click();" >Say Hello</button>
+   <form action="javascript:click();" method="get">
+       <input type="text" value="" id='txtname' name="name" placeholder="write a name"><br>
+       <button type="button" onclick="" >Say Hello</button>
    </form>
-   <script src="script.js"></script>
+    <script>
+        function click(){
+            alert('Hello '+ document.getElementById('txtname').value);
+        };
+    </script>
 </body>
 </html>
