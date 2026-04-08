@@ -1,0 +1,29 @@
+{
+  "name": "Ahadith - أحاديث",
+  "short_name": "Ahadith",
+  "description": "Islamic Hadith collection application - تطبيق مجموعة الأحاديث النبوية",
+  "start_url": "./Ahadith.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#111111",
+  "theme_color": "#19a1e6",
+  "categories": ["education", "books", "lifestyle"],
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}

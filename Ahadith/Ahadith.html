@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0" />
+
+  <!-- SEO & Meta -->
+  <title>Ahadith - أحاديث النبي ﷺ</title>
+  <meta name="description"
+    content="تطبيق أحاديث - مجموعة الأحاديث النبوية الشريفة. Islamic Hadith collection application.">
+  <meta name="theme-color" content="#19a1e6">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Ahadith">
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-primary: #111111;
+      --bg-secondary: #1a1a2e;
+      --bg-glass: rgba(17, 17, 17, 0.75);
+      --accent-blue: #19a1e6;
+      --accent-cyan: #00d2ff;
+      --accent-glow: rgba(25, 161, 230, 0.4);
+      --text-primary: #ffffff;
+      --text-secondary: #f1f5f9;
+      --text-muted: rgba(255, 255, 255, 0.6);
+      --border-glass: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(25, 161, 230, 0.3);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+      font-family: 'Inter', 'Tajawal', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+
+    /* ===== Loading Screen ===== */
+    #splash-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-primary);
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+
+    #splash-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* Animated background gradient */
+    #splash-screen::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 600px 400px at 30% 20%, rgba(25, 161, 230, 0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 350px at 70% 80%, rgba(0, 210, 255, 0.08) 0%, transparent 70%);
+      animation: bgPulse 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgPulse {
+      0% {
+        opacity: 0.6;
+        transform: scale(1);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+    }
+
+    .splash-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .app-icon-wrapper {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      animation: iconFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes iconFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    .app-icon-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan), var(--accent-blue));
+      background-size: 300% 300%;
+      animation: borderGlow 4s ease infinite;
+      filter: blur(1px);
+    }
+
+    @keyframes borderGlow {
+
+      0%,
+      100% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .app-icon {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      border-radius: 24px;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    .app-title {
+      font-family: 'Tajawal', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-cyan) 50%, var(--accent-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+    }
+
+    .app-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 300;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* Progress bar */
+    .progress-container {
+      width: 260px;
+      margin-top: 12px;
+    }
+
+    .progress-bar-track {
+      width: 100%;
+      height: 3px;
+      background: var(--border-glass);
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+      border-radius: 4px;
+      transition: width 0.3s ease;
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    .progress-bar-fill.indeterminate {
+      width: 40%;
+      animation: indeterminate 1.8s ease-in-out infinite;
+    }
+
+    @keyframes indeterminate {
+      0% {
+        transform: translateX(-100%);
+      }
+
+      100% {
+        transform: translateX(750%);
+      }
+    }
+
+    .status-text {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 14px;
+      font-weight: 400;
+      min-height: 20px;
+      transition: color 0.3s ease;
+    }
+
+    .status-text.error {
+      color: #ef4444;
+    }
+
+    /* Floating particles */
+    .particles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--accent-blue);
+      border-radius: 50%;
+      opacity: 0;
+      animation: particleFloat linear infinite;
+    }
+
+    @keyframes particleFloat {
+      0% {
+        opacity: 0;
+        transform: translateY(100vh) scale(0);
+      }
+
+      10% {
+        opacity: 0.6;
+      }
+
+      90% {
+        opacity: 0.2;
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(-10vh) scale(1);
+      }
+    }
+
+    /* ===== App Screen ===== */
+    #screen {
+      width: 100%;
+      height: 100%;
+      display: none;
+      overflow: hidden;
+    }
+
+    /* ===== PWA Install Banner ===== */
+    .install-banner {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 24px;
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-accent);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px var(--accent-glow);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      max-width: 440px;
+      width: calc(100% - 32px);
+    }
+
+    .install-banner.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .install-banner-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      flex-shrink: 0;
+    }
+
+    .install-banner-text {
+      flex: 1;
+    }
+
+    .install-banner-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .install-banner-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .install-btn {
+      padding: 9px 20px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 12px rgba(25, 161, 230, 0.3);
+    }
+
+    .install-btn:hover {
+      transform: scale(1.04);
+      box-shadow: 0 4px 20px rgba(25, 161, 230, 0.5);
+    }
+
+    .install-dismiss {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 6px;
+      font-size: 1.2rem;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .install-dismiss:hover {
+      color: var(--text-primary);
+    }
+
+    /* ===== Mobile: install banner on top ===== */
+    @media (max-width: 768px) {
+      .install-banner {
+        top: 12px;
+        bottom: auto;
+        transform: translateX(-50%) translateY(-120px);
+        gap: 10px;
+        padding: 10px 16px;
+        border-radius: 14px;
+        width: calc(100% - 24px);
+      }
+
+      .install-banner.show {
+        transform: translateX(-50%) translateY(0);
+      }
+
+      .install-banner-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+      }
+
+      .install-banner-title {
+        font-size: 0.85rem;
+      }
+
+      .install-banner-desc {
+        font-size: 0.72rem;
+      }
+
+      .install-btn {
+        padding: 7px 16px;
+        font-size: 0.8rem;
+      }
+
+      .install-dismiss {
+        font-size: 1.1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .app-icon-wrapper {
+        width: 90px;
+        height: 90px;
+      }
+
+      .app-icon {
+        width: 90px;
+        height: 90px;
+        border-radius: 20px;
+      }
+
+      .app-icon-wrapper::before {
+        border-radius: 24px;
+      }
+
+      .app-title {
+        font-size: 1.8rem;
+      }
+
+      .progress-container {
+        width: 200px;
+      }
+    }
+
+    /* No script fallback */
+    noscript {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Splash / Loading Screen -->
+  <div id="splash-screen">
+    <div class="particles" id="particles"></div>
+    <div class="splash-content">
+      <div class="app-icon-wrapper">
+        <img src="icon-192.png" alt="Ahadith" class="app-icon" />
+      </div>
+      <h1 class="app-title">أحاديث</h1>
+      <p class="app-subtitle">Hadith Collection</p>
+      <div class="progress-container">
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill indeterminate" id="progressBar"></div>
+        </div>
+        <div class="status-text" id="statusText">جاري التحميل...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Container -->
+  <div id="screen"></div>
+
+  <!-- PWA Install Banner -->
+  <div class="install-banner" id="installBanner">
+    <img src="icon-192.png" alt="Ahadith" class="install-banner-icon" />
+    <div class="install-banner-text">
+      <div class="install-banner-title">تثبيت تطبيق أحاديث</div>
+      <div class="install-banner-desc">Install for offline access</div>
+    </div>
+    <button class="install-btn" id="installBtn">تثبيت</button>
+    <button class="install-dismiss" id="dismissBtn" aria-label="Dismiss">&times;</button>
+  </div>
+
+  <noscript>
+    <p>JavaScript مطلوب لتشغيل هذا التطبيق.<br>JavaScript is required to run this application.</p>
+  </noscript>
+
+  <script>
+    // ===== Particle System =====
+    (function createParticles() {
+      const container = document.getElementById('particles');
+      if (!container) return;
+      for (let i = 0; i < 20; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDuration = (6 + Math.random() * 10) + 's';
+        p.style.animationDelay = (Math.random() * 8) + 's';
+        p.style.width = p.style.height = (1 + Math.random() * 2) + 'px';
+        container.appendChild(p);
+      }
+    })();
+
+    // ===== PWA Service Worker Registration =====
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(reg => console.log('[PWA] Service Worker registered', reg.scope))
+        .catch(err => console.warn('[PWA] SW registration failed:', err));
+    }
+
+    // ===== PWA Install Prompt =====
+    let deferredPrompt = null;
+    const installBanner = document.getElementById('installBanner');
+    const installBtn = document.getElementById('installBtn');
+    const dismissBtn = document.getElementById('dismissBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      setTimeout(() => installBanner.classList.add('show'), 2000);
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log('[PWA] Install outcome:', outcome);
+      deferredPrompt = null;
+      installBanner.classList.remove('show');
+    });
+
+    dismissBtn.addEventListener('click', () => {
+      installBanner.classList.remove('show');
+    });
+
+    window.addEventListener('appinstalled', () => {
+      console.log('[PWA] App installed');
+      installBanner.classList.remove('show');
+      deferredPrompt = null;
+    });
+
+    // ===== Qt WASM Loader =====
+    async function init() {
+      const splash = document.getElementById('splash-screen');
+      const screen = document.getElementById('screen');
+      const statusText = document.getElementById('statusText');
+      const progressBar = document.getElementById('progressBar');
+
+      const showUi = (ui) => {
+        if (ui === screen) {
+          splash.classList.add('hidden');
+          screen.style.display = 'block';
+          // Tell Qt to recalculate canvas size
+          setTimeout(() => window.dispatchEvent(new Event('resize')), 50);
+          setTimeout(() => window.dispatchEvent(new Event('resize')), 300);
+        } else {
+          splash.classList.remove('hidden');
+          screen.style.display = 'none';
+        }
+      };
+
+      try {
+        showUi(splash);
+        statusText.textContent = 'جاري تحميل التطبيق...';
+
+        const instance = await qtLoad({
+          qt: {
+            onLoaded: () => {
+              progressBar.classList.remove('indeterminate');
+              progressBar.style.width = '100%';
+              statusText.textContent = 'تم التحميل بنجاح ✓';
+              setTimeout(() => {
+                showUi(screen);
+                // Auto-fullscreen on small screens
+                if (window.innerWidth <= 768) {
+                  const goFullscreen = () => {
+                    const el = document.documentElement;
+                    const rfs = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
+                    if (rfs) {
+                      rfs.call(el).then(() => {
+                        setTimeout(() => window.dispatchEvent(new Event('resize')), 200);
+                      }).catch(() => { });
+                    }
+                  };
+                  if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+                    goFullscreen();
+                  } else {
+                    const onFirstTouch = () => {
+                      goFullscreen();
+                      document.removeEventListener('touchstart', onFirstTouch);
+                      document.removeEventListener('click', onFirstTouch);
+                    };
+                    document.addEventListener('touchstart', onFirstTouch, { once: true });
+                    document.addEventListener('click', onFirstTouch, { once: true });
+                  }
+                }
+              }, 400);
+            },
+            onExit: exitData => {
+              statusText.classList.add('error');
+              statusText.textContent = 'Application exit';
+              if (exitData.code !== undefined) statusText.textContent += ` (code: ${exitData.code})`;
+              if (exitData.text !== undefined) statusText.textContent += ` - ${exitData.text}`;
+              showUi(splash);
+            },
+            entryFunction: window.Ahadith_entry,
+            containerElements: [screen],
+          }
+        });
+      } catch (e) {
+        console.error(e);
+        progressBar.classList.remove('indeterminate');
+        progressBar.style.width = '0%';
+        progressBar.style.background = '#ef4444';
+        statusText.classList.add('error');
+        statusText.textContent = 'خطأ في التحميل - Error loading application';
+      }
+    }
+
+    // Start when DOM ready
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+  <script src="Ahadith.js"></script>
+  <script src="qtloader.js"></script>
+</body>
+
+</html>
