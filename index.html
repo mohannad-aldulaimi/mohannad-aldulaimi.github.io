@@ -8,11 +8,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
     <title>Mohannad A. Alayash - Home</title>
+    
+    <!-- Comprehensive SEO Metadata -->
+    <meta name="description" content="Mohannad A. Alayash - Software Engineer and Developer specializing in C/C++, Qt/QML, Ring, and modern Web Technologies.">
+    <meta name="keywords" content="Mohannad A. Alayash, Software Engineer, Ring Programming Language, C++, Qt, QML, Web Development, مهند العياش, مهندس برمجيات">
+    <meta name="author" content="Mohannad A. Alayash">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Social Media Preview -->
+    <meta property="og:title" content="Mohannad A. Alayash - Home">
+    <meta property="og:description" content="Mohannad A. Alayash - Software Engineer and Developer specializing in C/C++, Qt/QML, Ring, and modern Web Technologies.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="/images/mohannad_.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mohannad A. Alayash - Home">
+    <meta name="twitter:description" content="Mohannad A. Alayash - Software Engineer and Developer specializing in C/C++, Qt/QML, Ring, and modern Web Technologies.">
+
     <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
 
+    <!-- Preload Critical CSS -->
+    <link rel="preload" href="/assets/css/bootstrap.min.css" as="style">
+    <link rel="preload" href="/assets/css/style.css" as="style">
+
+    <!-- Optimized Fonts (Non-Blocking) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+
+    <!-- Critical Stylesheets -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/assets/css/style.css">
+    
+    <!-- Optimized Icons (Non-Blocking) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" media="print" onload="this.media='all'">
+    
 	
 	
 	
@@ -21,9 +52,15 @@
 <body>
     
 <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="/">
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container-fluid d-flex align-items-center justify-content-between">
+            <!-- Theme Toggle: Left on Mobile, Right on Desktop -->
+            <button class="theme-toggle order-0 order-lg-last ms-0 ms-lg-3" id="themeToggle">
+                <i class="bi bi-moon"></i>
+            </button>
+
+            <!-- Brand: Center on Mobile, Left on Desktop -->
+            <a class="navbar-brand fw-bold order-1 order-lg-0 mx-auto mx-lg-0" href="/">
 <style>
 	.mohannad_logo {
 		width:40px;
@@ -34,21 +71,12 @@
 	}
 </style>
 				<img class="mohannad_logo" src="/images/logo.png" width="40px" alt="Mohannad A. Alayash">
-
-<!--
-                <span class="d-none d-md-inline"></span>
-                <span class="d-inline d-md-none">M. Alayash</span>
- -->
             </a>
             
-            <div class="navbar-toggler-container">
-                <button class="theme-toggle" id="themeToggle">
-                    <i class="bi bi-moon"></i>
-                </button>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
+            <!-- Toggler: Right on Mobile -->
+            <button class="navbar-toggler order-2 border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
@@ -57,11 +85,14 @@
                     <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
                     <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/en/projects.html">Show All Projects</a></li>
-                    <li class="nav-item language-switcher ms-lg-2 mt-2 mt-lg-0">
-        	            <a href="/en/"class="active">EN</a>
-        	            <a href="/ar/" >AR</a>
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <div class="nav-lang-toggle">
+                            <a href="/en/" class="lang-btn active">EN</a>
+                            <a href="/ar/" class="lang-btn ">AR</a>
+                        </div>
                     </li>
+                    <li class="nav-item"><a class="nav-link" href="/en/projects.html">Show All Projects</a></li>
+                    
                 </ul>
             </div>
         </div>
@@ -73,19 +104,21 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6 hero-content">
-                    <h4 class="text-uppercase mb-3">Hello, I'm<i class="bi bi-hand-wave"></i></h4>
-                    <h1 class="display-4 fw-bold mb-3">Mohannad A. Alayash</h1>
-                    <h3 class="mb-4">PH.T, Developer & Softwere Designer<i class="bi bi-laptop-fill"></i></h3>
-                    <p class="lead mb-4">Creating innovative solutions with cutting-edge technologies,I Love Programmming<i class="bi bi-sparkle"></i></p>
+                    <div class="hero-greeting mb-4">
+                        Hello, I'm <i class="bi bi-hand-wave"></i>
+                    </div>
+                    <h1 class="display-3 fw-bold mb-3">Mohannad A. Alayash</h1>
+                    <h3 class="mb-4 text-primary">P.H, Developer & Software Designer <i class="bi bi-laptop-fill"></i></h3>
+                    <p class="lead mb-5 text-muted">Creating innovative solutions with cutting-edge technologies, I Love Programming <i class="bi bi-sparkle"></i></p>
                     <div class="d-flex gap-3 justify-content-center justify-content-md-start">
-                        <a href="#contact" class="btn btn-light btn-lg px-4">Contact Me<i class="bi bi-handshake"></i></a>
-                        <a href="#portfolio" class="btn btn-outline-light btn-lg px-4">View Projects<i class="bi bi-rocket-takeoff"></i></a>
+                        <a href="#contact" class="btn btn-primary px-5 py-3">Contact Me <i class="bi bi-handshake"></i></a>
+                        <a href="#portfolio" class="btn btn-outline-secondary px-5 py-3">View Projects <i class="bi bi-rocket-takeoff"></i></a>
                     </div>
                 </div>
                 <div class="col-md-6 text-center mt-5 mt-md-0">
-                    <div class="position-relative">
-                        <div class="position-absolute top-0 start-50 translate-middle-x bg-primary rounded-circle" style="width: 300px; height: 300px; opacity: 0.1;"></div>
-                        <img src="/images/mohannad.png" alt="Mohannad Alayash" class="img-fluid rounded-circle position-relative" style="max-width: 300px; border: 5px solid rgba(255,255,255,0.2);">
+                    <div class="hero-profile-container">
+                        <div class="profile-blob"></div>
+                        <img src="/images/mohannad.png" alt="Mohannad Alayash" class="img-fluid profile-image">
                     </div>
                 </div>
             </div>
@@ -100,7 +133,7 @@
                 <div class="col-md-6 mb-5 mb-md-0">
                     <h2 class="section-title">About Me<i class="bi bi-person-workspace"></i></h2>
                     <div id="aboutContent">
-                        <p class="lead">I'm a developer and Softwere designer with over 4 years of experience creating solutions for hard use-cases.<i class="bi bi-globe-americas"></i></p>
+                        <p class="lead">I'm a developer and Software designer with over 4 years of experience creating solutions for hard use-cases.<i class="bi bi-globe-americas"></i></p>
                         <p>My expertise spans across multiple domains including web development, UI/UX design, and system architecture. I believe in creating solutions that are not only functional but also aesthetically pleasing and user-friendly.<i class="bi bi-lightbulb"></i></p>
                         <p>When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or mentoring aspiring developers. <i class="bi bi-book"></i></p>
                     </div>
@@ -185,14 +218,14 @@
                             </div>
                             <h4 class="card-title text-center">Frontend Development</h4>
                             <div class="d-flex flex-wrap justify-content-center mt-4">
-                                <span class="skills-badge">HTML5</span>
-                                <span class="skills-badge">CSS3</span>
-                                <span class="skills-badge">JavaScript</span>
-                                <span class="skills-badge">React Js</span>
-                                <span class="skills-badge">Next Js</span>
-                                <span class="skills-badge">Bootstrap</span>
-                                <span class="skills-badge">WebAssembly</span>
-                                <span class="skills-badge">Responsive Design</span>
+                                <span class="skills-badge" dir="ltr">HTML5</span>
+                                <span class="skills-badge" dir="ltr">CSS3</span>
+                                <span class="skills-badge" dir="ltr">JavaScript</span>
+                                <span class="skills-badge" dir="ltr">React Js</span>
+                                <span class="skills-badge" dir="ltr">Next Js</span>
+                                <span class="skills-badge" dir="ltr">Bootstrap</span>
+                                <span class="skills-badge" dir="ltr">WebAssembly</span>
+                                <span class="skills-badge" dir="ltr">Responsive Design</span>
                             </div>
                         </div>
                     </div>
@@ -206,12 +239,12 @@
                             </div>
                             <h4 class="card-title text-center"> Backend Development</h4>
                             <div class="d-flex flex-wrap justify-content-center mt-4">
-                                <span class="skills-badge">Next JS</span>
-                                <span class="skills-badge">Ring</span>
-                                <span class="skills-badge">PHP</span>
-                                <span class="skills-badge">PostGreSQL</span>
-                                <span class="skills-badge">MySQL</span>
-                                <span class="skills-badge">SqLite</span>
+                                <span class="skills-badge" dir="ltr">Next JS</span>
+                                <span class="skills-badge" dir="ltr">Ring</span>
+                                <span class="skills-badge" dir="ltr">PHP</span>
+                                <span class="skills-badge" dir="ltr">PostGreSQL</span>
+                                <span class="skills-badge" dir="ltr">MySQL</span>
+                                <span class="skills-badge" dir="ltr">SqLite</span>
                             </div>
                         </div>
                     </div>
@@ -225,13 +258,13 @@
                             </div>
                             <h4 class="card-title text-center"> Other Skills</h4>
                             <div class="d-flex flex-wrap justify-content-center mt-4">
-                                <span class="skills-badge">UI/UX Design</span>
-                                <span class="skills-badge">Logos Design</span>
-                                <span class="skills-badge">Excel Data-Structure</span>
-                                <span class="skills-badge">Git</span>
-                                <span class="skills-badge">PWS Applications</span>
-                                <span class="skills-badge">Qt Framework</span>
-                                <span class="skills-badge">Software Design</span>
+                                <span class="skills-badge" dir="ltr">UI/UX Design</span>
+                                <span class="skills-badge" dir="ltr">Logos Design</span>
+                                <span class="skills-badge" dir="ltr">Excel Data-Structure</span>
+                                <span class="skills-badge" dir="ltr">Git</span>
+                                <span class="skills-badge" dir="ltr">PWS Applications</span>
+                                <span class="skills-badge" dir="ltr">Qt Framework</span>
+                                <span class="skills-badge" dir="ltr">Software Design</span>
                             </div>
                         </div>
                     </div>
@@ -251,51 +284,56 @@
                 </div>
             </div>
             
-            <div id="portfolioCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div id="portfolioCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
         
                 <div class="carousel-inner">
 				
 
                     <div class="carousel-item active">
-                        <div class="row">
-                            <div class="col-md-6">
-                                
-								<video  autoplay muted loop class="w-100 rounded-start card-img-responsive" >
-									<source src="/images/projects/ahadith.mp4">
-								</video>
-							
-                            </div>
-                            <div class="col-md-6 d-flex align-items-center">
-                                <div>
-                                    <h2 class="text-center mt-3 mb-2">Ahadith App </h2>
-                                    <p>android/windows app for ahadith of prophet muhammad (peace be upon him) using <a href="https://hadithapi.com/">Hadith API</a>... <br />Made For Ring Programming Language As an example of using QML extension.</p>
-                                    <h5>Technologies Used:</h5>
-                                    <div class="d-flex flex-wrap">
-									
-                                        <span class="skills-badge">hadithapi.com API</span>
-									
-                                        <span class="skills-badge">C++</span>
-									
-                                        <span class="skills-badge">Qt Framwork</span>
-									
-                                        <span class="skills-badge">QML</span>
-									
-                                        <span class="skills-badge">RingQt</span>
-									
-                                        <span class="skills-badge">Ring Programming Language</span>
-									
-                                        <span class="skills-badge">WebAssembly</span>
-									
-                                        <span class="skills-badge">Github</span>
-									
+                        <div class="portfolio-card-container px-lg-5">
+                            <div class="project-card glass-panel h-100 overflow-hidden">
+                                <div class="row g-0 h-100">
+                                    <div class="col-lg-6 project-img-wrapper" style="min-height: 300px;">
+                                        
+                                            <div class="h-100 w-100">
+                                                <video autoplay muted loop playsinline preload="metadata" class="project-img w-100 h-100" style="object-fit: cover;">
+                                                    <source src="/images/projects/ahadith.mp4" type="video/mp4">
+                                                </video>
+                                            </div>
+                                        
                                     </div>
-									
-										<div class='d-flex align-items-center ' style="justify-content:center;">
-										
-											<a href="https://github.com/mohannad-aldulaimi/mohannad-aldulaimi.github.io/releases/download/apk/ahadith.apk" target="_blank" class="btn btn-outline-primary" style="margin:5px;">Download APK</a>
-										
-										</div>
-									
+                                    <div class="col-lg-6 project-card-body d-flex flex-column justify-content-center p-4 p-md-5">
+                                        <h3 class="mb-3 text-primary h2 fw-bold">Ahadith App</h3>
+                                        <p class="mb-4 lead text-white-50">android/windows app for ahadith of prophet muhammad (peace be upon him) using <a target="_blank" href="https://hadithapi.com/">Hadith API</a>...</p>
+                                        
+                                        <div class="project-tags mb-4">
+                                            
+                                                <span class="tag" dir="ltr">hadithapi.com API</span>
+                                            
+                                                <span class="tag" dir="ltr">C++</span>
+                                            
+                                                <span class="tag" dir="ltr">Qt Framework</span>
+                                            
+                                                <span class="tag" dir="ltr">QML</span>
+                                            
+                                                <span class="tag" dir="ltr">RingQt</span>
+                                            
+                                                <span class="tag" dir="ltr">Ring Programming Language</span>
+                                            
+                                                <span class="tag" dir="ltr">WebAssembly</span>
+                                            
+                                                <span class="tag" dir="ltr">Github</span>
+                                            
+                                        </div>
+                                        
+                                        
+                                            <div class="project-links d-flex flex-wrap gap-2">
+                                                
+                                                    <a href="https://github.com/mohannad-aldulaimi/mohannad-aldulaimi.github.io/releases/download/apk/ahadith.apk" target="_blank" class="btn btn-outline-primary rounded-pill px-4">Download APK</a>
+                                                
+                                            </div>
+                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -304,42 +342,44 @@
 				
 
                     <div class="carousel-item ">
-                        <div class="row">
-                            <div class="col-md-6">
-                                
-								<img src="/images/projects/praytimes.jpg
-" class="w-100 rounded-start card-img-responsive" alt="Pray Time App">
-							
-                            </div>
-                            <div class="col-md-6 d-flex align-items-center">
-                                <div>
-                                    <h2 class="text-center mt-3 mb-2">Pray Time App </h2>
-                                    <p>android/windows app for pray times in Salah-addin Al-Sharqat city... <br />Made For Ring Programming Language As an example of using QML extension.</p>
-                                    <h5>Technologies Used:</h5>
-                                    <div class="d-flex flex-wrap">
-									
-                                        <span class="skills-badge">C++</span>
-									
-                                        <span class="skills-badge">Qt Framwork</span>
-									
-                                        <span class="skills-badge">QML</span>
-									
-                                        <span class="skills-badge">RingQt</span>
-									
-                                        <span class="skills-badge">Ring Programming Language</span>
-									
-                                        <span class="skills-badge">WebAssembly</span>
-									
-                                        <span class="skills-badge">Github</span>
-									
+                        <div class="portfolio-card-container px-lg-5">
+                            <div class="project-card glass-panel h-100 overflow-hidden">
+                                <div class="row g-0 h-100">
+                                    <div class="col-lg-6 project-img-wrapper" style="min-height: 300px;">
+                                        
+                                            <img src="/images/projects/praytimes.jpg" loading="lazy" class="project-img w-100 h-100" style="object-fit: cover;" alt="Pray Time App">
+                                        
                                     </div>
-									
-										<div class='d-flex align-items-center ' style="justify-content:center;">
-										
-											<a href="https://github.com/mohannad-aldulaimi/mohannad-aldulaimi.github.io/releases/download/apk/praytimes.apk" target="_blank" class="btn btn-outline-primary" style="margin:5px;">Download APK</a>
-										
-										</div>
-									
+                                    <div class="col-lg-6 project-card-body d-flex flex-column justify-content-center p-4 p-md-5">
+                                        <h3 class="mb-3 text-primary h2 fw-bold">Pray Time App</h3>
+                                        <p class="mb-4 lead text-white-50">android/windows app for pray times in Salah-addin Al-Sharqat city...</p>
+                                        
+                                        <div class="project-tags mb-4">
+                                            
+                                                <span class="tag" dir="ltr">C++</span>
+                                            
+                                                <span class="tag" dir="ltr">Qt Framework</span>
+                                            
+                                                <span class="tag" dir="ltr">QML</span>
+                                            
+                                                <span class="tag" dir="ltr">RingQt</span>
+                                            
+                                                <span class="tag" dir="ltr">Ring Programming Language</span>
+                                            
+                                                <span class="tag" dir="ltr">WebAssembly</span>
+                                            
+                                                <span class="tag" dir="ltr">Github</span>
+                                            
+                                        </div>
+                                        
+                                        
+                                            <div class="project-links d-flex flex-wrap gap-2">
+                                                
+                                                    <a href="https://github.com/mohannad-aldulaimi/mohannad-aldulaimi.github.io/releases/download/apk/praytimes.apk" target="_blank" class="btn btn-outline-primary rounded-pill px-4">Download APK</a>
+                                                
+                                            </div>
+                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -348,42 +388,44 @@
 				
 
                     <div class="carousel-item ">
-                        <div class="row">
-                            <div class="col-md-6">
-                                
-								<img src="/images/projects/adhkarring.png
-" class="w-100 rounded-start card-img-responsive" alt="Adhkar Ring App">
-							
-                            </div>
-                            <div class="col-md-6 d-flex align-items-center">
-                                <div>
-                                    <h2 class="text-center mt-3 mb-2">Adhkar Ring App </h2>
-                                    <p>android/windows/web app contains supplications of morning and evening ,etc... <br />Made For Ring Programming Language As an example of using pointer.</p>
-                                    <h5>Technologies Used:</h5>
-                                    <div class="d-flex flex-wrap">
-									
-                                        <span class="skills-badge">C++</span>
-									
-                                        <span class="skills-badge">Qt Framwork</span>
-									
-                                        <span class="skills-badge">RingQt</span>
-									
-                                        <span class="skills-badge">Ring Programming Language</span>
-									
-                                        <span class="skills-badge">WebAssembly</span>
-									
-                                        <span class="skills-badge">Github</span>
-									
+                        <div class="portfolio-card-container px-lg-5">
+                            <div class="project-card glass-panel h-100 overflow-hidden">
+                                <div class="row g-0 h-100">
+                                    <div class="col-lg-6 project-img-wrapper" style="min-height: 300px;">
+                                        
+                                            <img src="/images/projects/adhkarring.png" loading="lazy" class="project-img w-100 h-100" style="object-fit: cover;" alt="Adhkar Ring App">
+                                        
                                     </div>
-									
-										<div class='d-flex align-items-center ' style="justify-content:center;">
-										
-											<a href="https://mohannad-aldulaimi.github.io/Adhkar_Ring_App/Build/" target="_blank" class="btn btn-outline-primary" style="margin:5px;">Test Online</a>
-										
-											<a href="https://github.com/mohannad-aldulaimi/mohannad-aldulaimi.github.io/releases/download/apk/adhkarring.apk" target="_blank" class="btn btn-outline-primary" style="margin:5px;">Download APK</a>
-										
-										</div>
-									
+                                    <div class="col-lg-6 project-card-body d-flex flex-column justify-content-center p-4 p-md-5">
+                                        <h3 class="mb-3 text-primary h2 fw-bold">Adhkar Ring App</h3>
+                                        <p class="mb-4 lead text-white-50">android/windows/web app contains supplications of morning and evening ,etc...</p>
+                                        
+                                        <div class="project-tags mb-4">
+                                            
+                                                <span class="tag" dir="ltr">C++</span>
+                                            
+                                                <span class="tag" dir="ltr">Qt Framework</span>
+                                            
+                                                <span class="tag" dir="ltr">RingQt</span>
+                                            
+                                                <span class="tag" dir="ltr">Ring Programming Language</span>
+                                            
+                                                <span class="tag" dir="ltr">WebAssembly</span>
+                                            
+                                                <span class="tag" dir="ltr">Github</span>
+                                            
+                                        </div>
+                                        
+                                        
+                                            <div class="project-links d-flex flex-wrap gap-2">
+                                                
+                                                    <a href="https://mohannad-aldulaimi.github.io/Adhkar_Ring_App/Build/" target="_blank" class="btn btn-outline-primary rounded-pill px-4">Test Online</a>
+                                                
+                                                    <a href="https://github.com/mohannad-aldulaimi/mohannad-aldulaimi.github.io/releases/download/apk/adhkarring.apk" target="_blank" class="btn btn-outline-primary rounded-pill px-4">Download APK</a>
+                                                
+                                            </div>
+                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -437,26 +479,32 @@
 <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-6 mb-4 mb-md-0">
-                    <h3 class="mb-3">Mohannad A. Alayash</h3>
-                    <p>PH.T, Developer & Softwere Designer <i class="bi bi-rocket-fill"></i></p>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <div class="social-links mb-3 text-center">
-                        <a target="_blank" href="https://github.com/mohannad-aldulaimi"><i class="bi bi-github"></i></a>
-                        <a target="_blank" href="https://www.instagram.com/ph13m"><i class="bi bi-instagram"></i></a>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="footer-logo mb-4">
+                        <img src="/images/logo.png" width="50" alt="Logo" class="glass-icon">
                     </div>
-                    <p class="mb-0 text-center">&copy; 2025 Mohannad A. Alayash <br /> All rights reserved. <i class="bi bi-sparkle"></i></p>
+                    <h3 class="footer-name mb-2">Mohannad A. Alayash</h3>
+                    <p class="footer-tagline mb-4">P.H, Developer & Software Designer <i class="bi bi-rocket-takeoff"></i></p>
+                    
+                    <div class="footer-socials mb-5">
+                        <a target="_blank" href="https://github.com/mohannad-aldulaimi" class="social-link"><i class="bi bi-github"></i></a>
+                        <a target="_blank" href="https://www.instagram.com/ph13m" class="social-link"><i class="bi bi-instagram"></i></a>
+                        <a target="_blank" href="mailto:mohannadazazalayash@gmail.com" class="social-link"><i class="bi bi-envelope-fill"></i></a>
+                    </div>
+                    
+                    <div class="footer-divider mb-4"></div>
+                    
+                    <p class="copyright-text mb-0">&copy; 2026 Mohannad A. Alayash <br /> All rights reserved.</p>
+                    <img src="/images/singture.png" alt="Signature" class="footer-signature">
                 </div>
             </div>
         </div>
     </footer>
 
-    <script src="/assets/js/bootstrap.bundle.min.js"></script>
+    
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
 <script src="/assets/js/mainscript.js"></script>
-
-
 
 </body>
 </html>
