@@ -15,12 +15,12 @@
     :root {
         --primary: #19a1e6;
         --secondary: #00d2ff;
-        --bg-dark: #020617;
-        --bg-dim: #0f172a; /* The "Lighter Navy" mode */
+        --bg-dark: #111111;
+        --bg-dim: #333333;
         --text-dark: #ffffff;
         --text-dim: #f1f5f9;
-        --glass-bg-dark: rgba(15, 23, 42, 0.7);
-        --glass-bg-dim: rgba(30, 41, 59, 0.7);
+        --glass-bg-dark: rgba(17, 17, 17, 0.7);
+        --glass-bg-dim: rgba(51, 51, 51, 0.7);
         --glass-border: rgba(255, 255, 255, 0.1);
         --radius: 12px;
         --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -35,6 +35,12 @@
         margin: 0;
         transition: var(--transition);
         overflow-x: hidden;
+        cursor: url('/assets/cursors/pointer.svg') 2 2, auto;
+    }
+
+    /* Apply the custom hollow cursor to all interactive elements too */
+    a, button, .btn, .nav-link, .theme-toggle, .social-link, .lang-btn, input, textarea, select {
+        cursor: url('/assets/cursors/pointer.svg') 2 2, pointer;
     }
     
     [data-bs-theme="light"] body {
@@ -83,7 +89,7 @@
 
     /* Navbar - Floating & Rounded */
     .navbar {
-        background: rgba(2, 6, 23, 0.8) !important;
+        background: rgba(17, 17, 17, 0.85) !important;
         backdrop-filter: blur(15px);
         border: 1px solid var(--glass-border);
         border-radius: 50px;
@@ -106,7 +112,7 @@
             padding: 0.5rem 1rem !important;
         }
         .navbar-collapse {
-            background: rgba(15, 23, 42, 0.98) !important;
+            background: rgba(17, 17, 17, 0.98) !important;
             backdrop-filter: blur(25px) !important;
             border-radius: var(--radius);
             margin-top: 15px;
@@ -116,7 +122,7 @@
     }
     
     [data-bs-theme="light"] .navbar {
-        background: rgba(15, 23, 42, 0.8) !important;
+        background: rgba(51, 51, 51, 0.9) !important;
         border-color: rgba(255,255,255,0.1);
     }
 
@@ -514,7 +520,7 @@
         }
         .navbar-collapse {
             width: 100%;
-            background: rgba(15, 23, 42, 0.99) !important;
+            background: rgba(17, 17, 17, 0.99) !important;
             border-radius: 25px;
             margin-top: 65px;
             padding: 0 !important;
@@ -759,4 +765,47 @@
             font-size: 1.5rem;
             margin: 0 5px;
         }
+    }
+
+    /* Scroll to Top Button */
+    .scroll-top-btn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        background: rgba(17, 17, 17, 0.85);
+        backdrop-filter: blur(10px);
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1040;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(20px);
+        transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+        cursor: url('/assets/cursors/pointer.svg') 2 2, pointer;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .scroll-top-btn.visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .scroll-top-btn:hover {
+        background: rgba(25, 161, 230, 0.2);
+        border-color: var(--primary);
+        color: #ffffff;
+        box-shadow: 0 4px 20px rgba(25, 161, 230, 0.3);
+    }
+
+    html[dir="rtl"] .scroll-top-btn {
+        right: auto;
+        left: 30px;
     }

@@ -29,7 +29,7 @@
         document.documentElement.setAttribute('data-bs-theme', savedTheme);
         updateThemeIcon(savedTheme);
 
-        // Mouse Tracker
+        // Mouse Tracker (Ambient Background Glow)
         document.addEventListener("mousemove", function(e) {
             document.documentElement.style.setProperty("--mouse-x", (e.clientX / window.innerWidth * 100) + "%");
             document.documentElement.style.setProperty("--mouse-y", (e.clientY / window.innerHeight * 100) + "%");
@@ -118,4 +118,19 @@
             });
         }, { threshold: 0.1 });
         document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+        // Scroll to Top Button
+        const scrollBtn = document.getElementById('scrollTopBtn');
+        if (scrollBtn) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    scrollBtn.classList.add('visible');
+                } else {
+                    scrollBtn.classList.remove('visible');
+                }
+            });
+            scrollBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
     });
