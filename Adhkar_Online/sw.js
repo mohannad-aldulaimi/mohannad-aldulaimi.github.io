@@ -73,11 +73,27 @@ self.addEventListener('fetch', (event) => {
     rel += 'index.html';
   }
 
-  // Never intercept sw.js or fallback app.bin itself
-  if (rel === 'sw.js' || rel === 'app.bin') return;
+  // Never intercept sw.js, fallback app.bin, or PWA manifest/icons
+  if (rel === 'sw.js' || rel === 'app.bin' || rel === 'manifest.json' || rel === 'icon-192.png' || rel === 'icon-512.png') return;
 
   const entry = vaultFiles.get(rel);
   if (entry) {
+    if (rel === 'index.html') {
+      let html = new TextDecoder('utf-8').decode(entry.buffer);
+      if (!html.includes('manifest.json')) {
+        html = html.replace('</head>', '<link rel="manifest" href="./manifest.json" /></head>');
+      }
+      event.respondWith(
+        new Response(html, {
+          status: 200,
+          headers: {
+            'Content-Type': entry.mime,
+            'Cache-Control': 'no-store',
+          },
+        })
+      );
+      return;
+    }
     event.respondWith(
       new Response(entry.buffer.slice(0), {
         status: 200,
