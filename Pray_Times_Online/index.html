@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>تطبيق مواقيت الصلاة — التجربة المباشرة</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.18), transparent 45%),
+                  radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.14), transparent 45%),
+                  #070b19;
+      color: #f8fafc;
+      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+      padding: 24px;
+    }
+    .card {
+      width: 100%;
+      max-width: 380px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      border-radius: 28px;
+      padding: 28px 24px;
+      text-align: center;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(18px);
+    }
+    .spinner {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      border: 3.5px solid rgba(56, 189, 248, 0.2);
+      border-top-color: #38bdf8;
+      animation: spin 0.85s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    h1 { font-size: 19px; font-weight: 800; margin-bottom: 8px; }
+    p { font-size: 13px; color: #94a3b8; line-height: 1.7; }
+    .bar-wrap {
+      margin-top: 18px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .bar {
+      height: 100%;
+      width: 15%;
+      background: linear-gradient(90deg, #38bdf8, #10b981);
+      border-radius: 999px;
+      transition: width 0.25s ease;
+    }
+    .retry {
+      display: none;
+      margin-top: 18px;
+      padding: 10px 20px;
+      border: 0;
+      border-radius: 14px;
+      background: #38bdf8;
+      color: #082f49;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body oncontextmenu="return false">
+  <div class="card">
+    <div class="spinner" id="spinner"></div>
+    <h1 id="title">تطبيق مواقيت الصلاة</h1>
+    <p id="status">جاري تحميل التطبيق الآمن من الذاكرة...</p>
+    <div class="bar-wrap"><div class="bar" id="bar"></div></div>
+    <button class="retry" id="retryBtn" onclick="location.reload()">إعادة المحاولة</button>
+  </div>
+
+  <script>
+    (async function () {
+      const REMOTE_URL = 'https://raw.githubusercontent.com/mohannad-aldulaimi/pray-times-ota/refs/heads/main/app.bin';
+      const LOCAL_FALLBACK_URL = './app.bin';
+
+      const statusEl = document.getElementById('status');
+      const barEl = document.getElementById('bar');
+      const spinnerEl = document.getElementById('spinner');
+      const retryBtn = document.getElementById('retryBtn');
+
+      const setProgress = (pct, msg) => {
+        barEl.style.width = pct + '%';
+        if (msg) statusEl.textContent = msg;
+      };
+
+      const fail = (msg) => {
+        spinnerEl.style.display = 'none';
+        barEl.style.width = '100%';
+        barEl.style.background = '#ef4444';
+        statusEl.textContent = msg;
+        retryBtn.style.display = 'inline-block';
+      };
+
+      if (!window.crypto?.subtle || !('serviceWorker' in navigator) || typeof DecompressionStream === 'undefined') {
+        fail('المتصفح الحالي لا يدعم تشغيل الحزمة المشفرة. يرجى استخدام متصفح حديث (Chrome / Edge / Safari).');
+        return;
+      }
+
+      if (!location.pathname.endsWith('/')) {
+        location.replace(location.pathname + '/' + location.search);
+        return;
+      }
+
+      try {
+        setProgress(20, 'جاري تهيئة بيئة التشغيل الآمنة...');
+        const reg = await navigator.serviceWorker.register('./sw.js', { scope: './' });
+        await navigator.serviceWorker.ready;
+
+        if (!navigator.serviceWorker.controller) {
+          await new Promise((resolve) => {
+            navigator.serviceWorker.addEventListener('controllerchange', resolve, { once: true });
+            setTimeout(resolve, 1500);
+          });
+        }
+
+        const sw = navigator.serviceWorker.controller || reg.active || reg.waiting || reg.installing;
+        if (!sw) {
+          throw new Error('تعذر تفعيل مشغل الذاكرة');
+        }
+
+        setProgress(40, 'جاري جلب أحدث إصدار من التطبيق...');
+        let binBuffer = null;
+        try {
+          const remoteRes = await fetch(REMOTE_URL + '?t=' + Date.now(), { cache: 'no-store' });
+          if (remoteRes.ok) binBuffer = await remoteRes.arrayBuffer();
+        } catch {}
+
+        if (!binBuffer) {
+          const localRes = await fetch(LOCAL_FALLBACK_URL, { cache: 'no-store' });
+          if (!localRes.ok) throw new Error('تعذر تحميل ملف التطبيق');
+          binBuffer = await localRes.arrayBuffer();
+        }
+
+        setProgress(65, 'جاري فك تشفير الملفات في الذاكرة...');
+        const rawBytes = new Uint8Array(binBuffer);
+        const iv = rawBytes.slice(0, 16);
+        const ciphertext = rawBytes.slice(16);
+
+        const kSrc = [77,111,104,97,110,110,97,100,65,108,97,121,97,115,104,80,114,97,121,84,105,109,101,115,86,97,117,108,116,50,48,50];
+        const aesKey = await crypto.subtle.importKey('raw', new Uint8Array(kSrc), { name: 'AES-CBC' }, false, ['decrypt']);
+        const zipBuffer = await crypto.subtle.decrypt({ name: 'AES-CBC', iv }, aesKey, ciphertext);
+
+        setProgress(82, 'جاري تجهيز الخطوط والواجهات...');
+        const files = await unzipInMemory(new Uint8Array(zipBuffer));
+
+        setProgress(95, 'جاري التشغيل...');
+        await sendFilesToSW(sw, files);
+
+        setProgress(100, 'تم التجهيز بنجاح');
+        location.replace('./');
+      } catch (err) {
+        console.error('[WebVault]', err);
+        fail('حدث خطأ أثناء تحميل التطبيق: ' + (err?.message || 'يرجى المحاولة مرة أخرى'));
+      }
+
+      async function unzipInMemory(bytes) {
+        const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+        let eocdOffset = -1;
+        const minOffset = Math.max(0, bytes.length - 65557);
+        for (let i = bytes.length - 22; i >= minOffset; i--) {
+          if (view.getUint32(i, true) === 0x06054b50) {
+            eocdOffset = i;
+            break;
+          }
+        }
+        if (eocdOffset === -1) throw new Error('حزمة غير صالحة');
+
+        const totalEntries = view.getUint16(eocdOffset + 10, true);
+        let cdOffset = view.getUint32(eocdOffset + 16, true);
+        const decoder = new TextDecoder('utf-8');
+        const extracted = [];
+
+        for (let i = 0; i < totalEntries; i++) {
+          if (view.getUint32(cdOffset, true) !== 0x02014b50) break;
+          const method = view.getUint16(cdOffset + 10, true);
+          const compSize = view.getUint32(cdOffset + 20, true);
+          const nameLen = view.getUint16(cdOffset + 28, true);
+          const extraLen = view.getUint16(cdOffset + 30, true);
+          const commentLen = view.getUint16(cdOffset + 32, true);
+          const localHeaderOffset = view.getUint32(cdOffset + 42, true);
+
+          const fileName = decoder.decode(bytes.subarray(cdOffset + 46, cdOffset + 46 + nameLen));
+          cdOffset += 46 + nameLen + extraLen + commentLen;
+
+          if (fileName.endsWith('/')) continue;
+
+          const lfhNameLen = view.getUint16(localHeaderOffset + 26, true);
+          const lfhExtraLen = view.getUint16(localHeaderOffset + 28, true);
+          const dataStart = localHeaderOffset + 30 + lfhNameLen + lfhExtraLen;
+          const slice = bytes.subarray(dataStart, dataStart + compSize);
+
+          let outBuffer;
+          if (method === 0) {
+            outBuffer = slice.slice().buffer;
+          } else if (method === 8) {
+            const ds = new DecompressionStream('deflate-raw');
+            outBuffer = await new Response(new Blob([slice]).stream().pipeThrough(ds)).arrayBuffer();
+          } else {
+            continue;
+          }
+
+          extracted.push({ path: fileName, buffer: outBuffer });
+        }
+
+        return extracted;
+      }
+
+      function sendFilesToSW(sw, files) {
+        return new Promise((resolve, reject) => {
+          const channel = new MessageChannel();
+          const timer = setTimeout(() => reject(new Error('انتهت مهلة تهيئة الذاكرة')), 8000);
+          channel.port1.onmessage = (ev) => {
+            clearTimeout(timer);
+            if (ev.data?.ok) resolve();
+            else reject(new Error('فشل تخزين الملفات في الذاكرة'));
+          };
+          sw.postMessage(
+            { type: 'LOAD_VAULT', files },
+            [channel.port2, ...files.map((f) => f.buffer)]
+          );
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
+
